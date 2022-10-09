@@ -52,13 +52,13 @@ def create_app():
         autoplay = bool(request.cookies.get("autoplay"))
         if "video" in request.args:
             show_video = True
-        elif "snapshot" in request.args:
+        if "snapshot" in request.args:
             show_video = False
-        elif "autoplay" in request.args:
+        if "autoplay" in request.args:
             autoplay = True
-        elif "columns" in request.args:
+        if "columns" in request.args:
             number_of_columns = int(request.args.get("columns"))
-        elif "refresh" in request.args:
+        if "refresh" in request.args:
             refresh = int(request.args.get("refresh"))
             refresh_period = int(refresh) if refresh.isdigit() else 0
         resp = make_response(
