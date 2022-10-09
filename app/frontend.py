@@ -49,10 +49,13 @@ def create_app():
         refresh = request.cookies.get("refresh_period", "30")
         refresh_period = int(refresh) if refresh.isdigit() else 0
         show_video = bool(request.cookies.get("show_video"))
+        autoplay = bool(request.cookies.get("autoplay"))
         if "video" in request.args:
             show_video = True
         elif "snapshot" in request.args:
             show_video = False
+        elif "autoplay" in request.args:
+            autoplay = True
         resp = make_response(
             render_template(
                 "index.html",
@@ -62,12 +65,14 @@ def create_app():
                 hass=wb.hass,
                 version=wb.version,
                 show_video=show_video,
+                autoplay=autoplay,
             )
         )
 
         resp.set_cookie("number_of_columns", str(number_of_columns))
         resp.set_cookie("refresh_period", str(refresh_period))
         resp.set_cookie("show_video", "1" if show_video else "")
+        resp.set_cookie("autoplay", "1" if autoplay else "")
         return resp
 
     @app.route("/mfa/<path:mfa_code>")

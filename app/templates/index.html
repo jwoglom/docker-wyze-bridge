@@ -148,7 +148,7 @@
                         <figure class="image">
                             {% if show_video and (camera.connected or (camera.on_demand and camera.enabled)) %}
                             <video-js id="video-{{cam_uri}}"
-                                class="video-js vjs-live vjs-big-play-centered loading-preview" controls preload="none"
+                                class="video-js vjs-live vjs-big-play-centered loading-preview" controls {% if autoplay %}preload="auto" autoplay muted{% else %}preload="none"{% endif %}
                                 poster="{{camera.img_url or url_for('static',filename='loading.svg')}}"
                                 data-cam="{{cam_uri}}" data-setup='{"liveui": true, "fluid": true}'
                                 data-src="{{camera.hls_url}}stream.m3u8" width="100%">
@@ -261,6 +261,11 @@
         </div>
     </footer>
     <script src="https://vjs.zencdn.net/7.19.2/video.min.js"></script>
+    {% if cameras.cameras and show_video and autoplay %}
+    <script type='text/javascript'>
+        document.querySelectorAll('video').forEach(video => video.play())
+    </script>
+    {% endif %}
 </body>
 
 </html>
