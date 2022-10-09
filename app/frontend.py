@@ -56,6 +56,11 @@ def create_app():
             show_video = False
         elif "autoplay" in request.args:
             autoplay = True
+        elif "columns" in request.args:
+            number_of_columns = int(request.args.get("columns"))
+        elif "refresh" in request.args:
+            refresh = int(request.args.get("refresh"))
+            refresh_period = int(refresh) if refresh.isdigit() else 0
         resp = make_response(
             render_template(
                 "index.html",
